@@ -33,6 +33,42 @@ const BMWSauber = 'https://cdn.playbuzz.com/cdn/c8460192-b0d5-4db1-8b90-1dbc1a59
 const Ferrari = 'https://cdn.playbuzz.com/cdn/c8460192-b0d5-4db1-8b90-1dbc1a5961a2/8039874a-6fc4-4b29-9c7a-9197d6f92838.jpg';
 const Renault = 'https://cdn.playbuzz.com/cdn/c8460192-b0d5-4db1-8b90-1dbc1a5961a2/65065b60-d436-4e4e-84c5-a246274c9bbf.jpg';
 
+function createDriverListItem(driver, containerId, isFavorite) {
+  const listItem = document.createElement('li');
+  const divElement = document.createElement('div');
+  const driverName = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
+  const points = Number(driver.points);
+  const wins = driver.wins;
+  const position = driver.position;
+  const nationality = driver.Driver.nationality;
+  const team = driver.Constructors[0].constructorId;
+
+  listItem.textContent = driverName;
+  divElement.textContent = `Points: ${points} | Wins: ${wins} | Position: ${position} | Nationality: ${nationality}`;
+
+  const teamButton = document.createElement('button');
+  teamButton.textContent = 'Team Logo';
+  teamButton.addEventListener('click', () => toggleBackgroundImage(listItem, team));
+
+  listItem.appendChild(divElement);
+  listItem.appendChild(teamButton);
+
+  if (isFavorite) {
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', () => removeFromFavorites(driver));
+    listItem.appendChild(removeButton);
+  } else {
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add to Favorites';
+    addButton.addEventListener('click', () => addToFavorites(driver));
+    listItem.appendChild(addButton);
+  }
+
+  const container = document.getElementById(containerId);
+  container.appendChild(listItem);
+}
+
 function displayData(data, containerId) {
   const dataList = document.getElementById(containerId);
   dataList.innerHTML = '';
@@ -46,35 +82,10 @@ function displayData(data, containerId) {
   let totalPoints = 0;
 
   driverStandings.forEach(driver => {
-    const listItem = document.createElement('li');
-    const divElement = document.createElement('div');
-
-    const driverName = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
-    const points = Number(driver.points);
-    const wins = driver.wins;
-    const position = driver.position;
-    const nationality = driver.Driver.nationality;
-    const team = driver.Constructors[0].constructorId;
-
-    listItem.textContent = driverName;
-    divElement.textContent = `Points: ${points} | Wins: ${wins} | Position: ${position} | Nationality: ${nationality}`;
-
-    const teamButton = document.createElement('button');
-    teamButton.textContent = 'Team Logo';
-    teamButton.addEventListener('click', () => toggleBackgroundImage(listItem, team));
-
-    listItem.appendChild(divElement);
-    listItem.appendChild(teamButton);
-
-    const addButton = document.createElement('button'); 
-    addButton.textContent = 'Add to Favorites';
-    addButton.addEventListener('click', () => addToFavorites(driver));
-    listItem.appendChild(addButton);
-
-
-    dataList.appendChild(listItem);
-    totalPoints += points;
+    createDriverListItem(driver, containerId, false);
+    totalPoints += Number(driver.points);
   });
+
   const totalPointsElement = document.createElement('p');
   totalPointsElement.textContent = `Total Points: ${totalPoints}`;
   dataList.appendChild(totalPointsElement);
@@ -138,37 +149,13 @@ function displayFavorites() {
   let totalPoints = 0;
 
   favorites.forEach(driver => {
-    const listItem = document.createElement('li');
-    const divElement = document.createElement('div');//
-    listItem.textContent = `${driver.Driver.givenName} ${driver.Driver.familyName}`;
-
-    const points = Number(driver.points);//
-    const wins = driver.wins;//
-    const position = driver.position;//
-    const nationality = driver.Driver.nationality;//
-    const team = driver.Constructors[0].constructorId;
-
-    divElement.textContent = `Points: ${points} | Wins: ${wins} | Position: ${position} | Nationality: ${nationality}`;//
-
-    listItem.appendChild(divElement);//
-
-    const teamButton = document.createElement('button');
-    teamButton.textContent = 'Team Logo';
-    teamButton.addEventListener('click', () => toggleBackgroundImage(listItem, team));
-
-    listItem.appendChild(teamButton);
-
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.addEventListener('click', () => removeFromFavorites(driver));
-    listItem.appendChild(removeButton);
-
-    favoritesList.appendChild(listItem);
-    totalPoints += points;
+    createDriverListItem(driver, 'favorites-list', true);
+    totalPoints += Number(driver.points);
   });
-  const totalPointsElement = document.createElement('p');//
-  totalPointsElement.textContent = `Total Points: ${totalPoints}`;//
-  favoritesList.appendChild(totalPointsElement);//
+
+  const totalPointsElement = document.createElement('p');
+  totalPointsElement.textContent = `Total Points: ${totalPoints}`;
+  favoritesList.appendChild(totalPointsElement);
 }
 
 function removeFromFavorites(driver) {

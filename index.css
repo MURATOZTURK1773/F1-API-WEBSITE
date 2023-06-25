@@ -2,7 +2,6 @@ body {
     background-color: orange;
 }
 
-
 .collection,
 #favorites-list {
     border: 3px solid red;
@@ -10,8 +9,6 @@ body {
     width: 30rem;
     padding: 15px;
 }
-
-
 
 #data-list li,
  #favorites-list li{
@@ -25,6 +22,15 @@ body {
 #data-list h3,
 #favorites-list h3 {
     text-align: center;
+}
+
+#data-list p,
+#favorites-list p {
+    border: 3px solid gray;
+    width: fit-content;
+    background-color: wheat;
+    padding: 5px;
+    margin-left: 9px;
 }
 
 .header-wrapper {
@@ -87,25 +93,25 @@ body {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 9999;
-  }
+}
   
-  .spinner {
+.spinner {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 4px solid #ccc;
     border-top-color: #333;
     animation: spin 1s ease-in-out infinite;
-  }
+}  
   
 @keyframes spin {
     to { transform: rotate(360deg); }
-  }
+}
 
   
 #loading-indicator {
     display: none;
-  }    
+}    
 
 @media (min-width: 360px), (max-width: 360px){
     .content-wrapper {
@@ -120,5 +126,5 @@ body {
 @media (min-width: 768px) {
     .content-wrapper {
         flex-direction: row;
-        }
+    }
 }
