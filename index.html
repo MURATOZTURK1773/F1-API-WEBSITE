@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="index.css">
+  <title>Formula 1</title>
+</head>
+<body>
+  
+
+  <div class="container-wrapper">
+    <div class="header-wrapper">
+      <h1>F1 API Data Website</h1>
+
+      <div id="loading-indicator">
+        <div class="spinner"></div>
+      </div>      
+
+      <div class="button-wrapper">
+        <button class="button"  id="toggle-sort-button">Toggle (A-Z)</button>
+        <button class="button" id="toggle-reverse-sort-button">Toggle (Z-A)</button>
+      </div>
+    </div>
+    <div class="content-wrapper">
+      <ul class="collection" id="data-list"></ul>
+      <ul id="favorites-list"></ul>
+    </div>
+  </div>
+
+
+  
+  <script src="test.js"></script>
+</body>
+</html>
