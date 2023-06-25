@@ -1,4 +1,4 @@
-const apiUrl = 'http://ergast.com/api/f1/2008/driverStandings.json';
+const apiUrl = 'https://ergast.com/api/f1/2008/driverStandings.json';
 let collection = [];
 let favorites = [];
 let sortAscending = true;
