@@ -109,7 +109,7 @@ function toggleBackgroundImage(listItem, team) {
   const backgroundImageUrl = teamImages[team];
 
   const params = listItem.style.backgroundImage
-  ? ['', '', '', '']
+  ? ['', '', '', '', '']
   : [`url(${backgroundImageUrl})`, '150px 70px', '-webkit-fill-available', 'fit-content', '0'];
 
   listItem.style.backgroundImage = params[0];
