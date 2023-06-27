@@ -107,19 +107,16 @@ function toggleBackgroundImage(listItem, team) {
   };
 
   const backgroundImageUrl = teamImages[team];
-  
-  if (listItem.style.backgroundImage) {
-    listItem.style.backgroundImage = '';
-    listItem.style.width = '';
-    listItem.style.height = '';
-    listItem.querySelector('div').style.opacity = '';
-  } else {
-    listItem.style.backgroundImage = `url(${backgroundImageUrl})`;
-    listItem.style.backgroundSize = '150px 70px';
-    listItem.style.width = '-webkit-fill-available';
-    listItem.style.height = 'fit-content';
-    listItem.querySelector('div').style.opacity = '0';
-  }
+
+  const params = listItem.style.backgroundImage
+  ? ['', '', '', '']
+  : [`url(${backgroundImageUrl})`, '150px 70px', '-webkit-fill-available', 'fit-content', '0'];
+
+  listItem.style.backgroundImage = params[0];
+  listItem.style.backgroundSize = params[1];
+  listItem.style.width = params[2];
+  listItem.style.height = params[3];
+  listItem.querySelector('div').style.opacity = params[4];
 }
 
 function addToFavorites(driver) {
@@ -172,7 +169,7 @@ function removeFromFavorites(driver) {
 
 function addDriverToCollection(driver) {
   collection.push(driver);
-  sortCollection(collection);
+  sortAny(collection);
   displayData(collection, 'data-list');
 }
 
@@ -196,33 +193,27 @@ function isDriverInFavorites(driver) {
 
 function toggleSortOrder() {
   sortAscending = true;
-  sortCollection(collection);
-  sortFavorites();
-  displayData(collection, 'data-list');
+  sortAny(collection, 'data-list');
+  sortAny(favorites, 'favorites');
 }
 
 function toggleReverseSortOrder() {
   sortAscending = false;
-  sortCollection(collection);
-  sortFavorites();
-  displayData(collection, 'data-list');
+  sortAny(collection, 'data-list');
+  sortAny(favorites, 'favorites');
 }
 
-function sortCollection(data) {
+function sortAny(data, container) {
   data.sort((a, b) => {
     const nameA = `${a.Driver.givenName} ${a.Driver.familyName}`;
     const nameB = `${b.Driver.givenName} ${b.Driver.familyName}`;
     return sortAscending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
   });
-}
-
-function sortFavorites() {
-  favorites.sort((a, b) => {
-    const nameA = `${a.Driver.givenName} ${a.Driver.familyName}`;
-    const nameB = `${b.Driver.givenName} ${b.Driver.familyName}`;
-    return sortAscending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-  });
-  displayFavorites();
+  if (container === 'favorites') {
+    displayFavorites();
+  } else {
+    displayData(data, container);
+  }
 }
 
 const toggleSortButton = document.getElementById('toggle-sort-button');
